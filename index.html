@@ -1,59 +1,701 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expense Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>MovieBook - Movie Ticket Booking</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0b0b0f;
+            color: white;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: #111116;
+            border-bottom: 1px solid #25252d;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e50914;
+        }
+
+        .login-btn {
+            background: #e50914;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background: #b20710;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 500px;
+            padding: 80px 7%;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,0.95),
+                    rgba(0,0,0,0.65),
+                    rgba(0,0,0,0.25)
+                ),
+                url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba")
+                center/cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-content h1 {
+            font-size: 55px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            color: #e50914;
+        }
+
+        .hero-content p {
+            color: #ccc;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .primary-btn {
+            background: #e50914;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .secondary-btn {
+            border: 1px solid #777;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .primary-btn:hover {
+            background: #b20710;
+        }
+
+        .secondary-btn:hover {
+            border-color: white;
+        }
+
+        /* Search */
+        .search-section {
+            padding: 35px 7%;
+            background: #111116;
+        }
+
+        .search-box {
+            max-width: 700px;
+            margin: auto;
+            display: flex;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 18px;
+            border: none;
+            outline: none;
+            background: #25252d;
+            color: white;
+            border-radius: 6px 0 0 6px;
+            font-size: 15px;
+        }
+
+        .search-box button {
+            padding: 15px 25px;
+            border: none;
+            background: #e50914;
+            color: white;
+            font-weight: bold;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+        }
+
+        /* Movies */
+        .movies-section {
+            padding: 60px 7%;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+        }
+
+        .section-title a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: #15151b;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 18px;
+        }
+
+        .movie-info h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .movie-info p {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .rating {
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+
+        .book-btn {
+            display: block;
+            text-align: center;
+            background: #e50914;
+            color: white;
+            padding: 11px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .book-btn:hover {
+            background: #b20710;
+        }
+
+        /* Features */
+        .features {
+            padding: 60px 7%;
+            background: #111116;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #191920;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 7%;
+            text-align: center;
+            background: #08080b;
+            color: #888;
+            border-top: 1px solid #222;
+        }
+
+        footer strong {
+            color: #e50914;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 42px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 5%;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .movie-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .movies-section,
+            .features {
+                padding: 45px 5%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <!-- Navigation Bar -->
+    <header class="navbar">
 
-<h1>Expense Tracker</h1>
+        <div class="logo">
+            Movie<span>Book</span>
+        </div>
 
-<div class="balance-box">
-<h2>Your Balance</h2>
-<h1 id="balance">₹0</h1>
-</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="bookings.html">My Bookings</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
 
-<div class="summary">
+        <a href="#" class="login-btn">Login</a>
 
-<div class="income">
-<h3>Income</h3>
-<p id="money-plus">₹0</p>
-</div>
+    </header>
 
-<div class="expense">
-<h3>Expense</h3>
-<p id="money-minus">₹0</p>
-</div>
 
-</div>
+    <!-- Hero Section -->
+    <section class="hero">
 
-<h3>History</h3>
+        <div class="hero-content">
 
-<ul id="list"></ul>
+            <h1>
+                Book Your Movie
+                <span>Tickets</span>
+                Easily
+            </h1>
 
-<h3>Add New Transaction</h3>
+            <p>
+                Discover the latest movies, choose your favourite
+                theatre and showtime, select your seats and confirm
+                your booking in just a few clicks.
+            </p>
 
-<form id="form">
+            <div class="hero-buttons">
 
-<label>Text</label>
-<input type="text" id="text" placeholder="Enter description">
+                <a href="movies.html" class="primary-btn">
+                    Browse Movies
+                </a>
 
-<label>Amount</label>
-<input type="number" id="amount" placeholder="Income (+) or Expense (-)">
+                <a href="#now-showing" class="secondary-btn">
+                    Now Showing
+                </a>
 
-<button>Add Transaction</button>
+            </div>
 
-</form>
+        </div>
 
-</div>
+    </section>
 
-<script src="script.js"></script>
+
+    <!-- Search Section -->
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="movieSearch"
+                placeholder="Search for movies..."
+            >
+
+            <button onclick="searchMovie()">
+                Search
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- Movies Section -->
+    <section class="movies-section" id="now-showing">
+
+        <div class="section-title">
+
+            <h2>Now Showing</h2>
+
+            <a href="movies.html">
+                View All →
+            </a>
+
+        </div>
+
+
+        <div class="movie-grid">
+
+            <!-- Movie 1 -->
+            <div class="movie-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba"
+                    alt="Movie Poster"
+                >
+
+                <div class="movie-info">
+
+                    <h3>Avengers: Endgame</h3>
+
+                    <p>Action • Adventure • Sci-Fi</p>
+
+                    <div class="rating">
+                        ★ ★ ★ ★ ★
+                    </div>
+
+                    <a
+                        href="movie-details.html?movie=avengers"
+                        class="book-btn"
+                    >
+                        Book Tickets
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Movie 2 -->
+            <div class="movie-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1536440136628-849c177e76a1"
+                    alt="Movie Poster"
+                >
+
+                <div class="movie-info">
+
+                    <h3>Inception</h3>
+
+                    <p>Sci-Fi • Thriller • Drama</p>
+
+                    <div class="rating">
+                        ★ ★ ★ ★ ★
+                    </div>
+
+                    <a
+                        href="movie-details.html?movie=inception"
+                        class="book-btn"
+                    >
+                        Book Tickets
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Movie 3 -->
+            <div class="movie-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1485846234645-a62644f84728"
+                    alt="Movie Poster"
+                >
+
+                <div class="movie-info">
+
+                    <h3>Interstellar</h3>
+
+                    <p>Sci-Fi • Adventure • Drama</p>
+
+                    <div class="rating">
+                        ★ ★ ★ ★ ★
+                    </div>
+
+                    <a
+                        href="movie-details.html?movie=interstellar"
+                        class="book-btn"
+                    >
+                        Book Tickets
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Movie 4 -->
+            <div class="movie-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0"
+                    alt="Movie Poster"
+                >
+
+                <div class="movie-info">
+
+                    <h3>The Dark Knight</h3>
+
+                    <p>Action • Crime • Drama</p>
+
+                    <div class="rating">
+                        ★ ★ ★ ★ ★
+                    </div>
+
+                    <a
+                        href="movie-details.html?movie=dark-knight"
+                        class="book-btn"
+                    >
+                        Book Tickets
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features Section -->
+    <section class="features" id="about">
+
+        <div class="section-title">
+
+            <h2>Why Choose MovieBook?</h2>
+
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">🎬</div>
+
+                <h3>Discover Movies</h3>
+
+                <p>
+                    Browse movies and check their details,
+                    genres and ratings before booking.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">💺</div>
+
+                <h3>Choose Your Seats</h3>
+
+                <p>
+                    Select available seats from the theatre
+                    seating layout according to your preference.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">🎟️</div>
+
+                <h3>Easy Booking</h3>
+
+                <p>
+                    Review your movie, theatre, showtime,
+                    seats and total amount before confirmation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 <strong>MovieBook</strong>.
+            Movie Ticket Booking Web Application.
+        </p>
+
+        <p>
+            Developed by Priyanshu Chourasia
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        function searchMovie() {
+
+            const searchInput =
+                document.getElementById("movieSearch").value
+                .toLowerCase()
+                .trim();
+
+            if (searchInput === "") {
+
+                alert("Please enter a movie name.");
+
+                return;
+            }
+
+            const movieCards =
+                document.querySelectorAll(".movie-card");
+
+            let found = false;
+
+            movieCards.forEach(card => {
+
+                const movieName =
+                    card.querySelector("h3")
+                    .textContent
+                    .toLowerCase();
+
+                if (movieName.includes(searchInput)) {
+
+                    card.style.display = "block";
+
+                    found = true;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+            if (!found) {
+
+                alert("Movie not found. Try another movie.");
+
+            }
+
+        }
+
+    </script>
 
 </body>
 </html>
